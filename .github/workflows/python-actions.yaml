@@ -24,6 +24,8 @@ jobs:
     - name: Run Python Tests
       run: poetry run pytest -v --junitxml=test-results/pytest.xml
       working-directory: ./python
+      env:
+        PYTEST_ADDOPTS: "--color=yes"
 
     - name: Run Python Lint
       run: poetry run black --check .
