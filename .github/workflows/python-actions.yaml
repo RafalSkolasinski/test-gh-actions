@@ -5,26 +5,26 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Install poetry
-      run: pipx install poetry
-    - uses: actions/setup-python@v3
-      with:
-        python-version: '3.8'
-        cache: 'poetry'
-    - run: poetry install
-      working-directory: ./python
-
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
+    - name: Install poetry
+      run: pipx install poetry
+
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'
+        cache: 'poetry'
+
+    - run: poetry install
+      working-directory: ./python
+
     - name: Run Python Tests
       run: poetry run pytest
       working-directory: ./python
+
     - name: Run Python Lint
-      run: make lint
+      run: poetry run black --check .
       working-directory: ./python
