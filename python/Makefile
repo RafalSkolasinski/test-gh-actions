@@ -13,4 +13,4 @@ fmt:
 	poetry run black .
 
 lint:
-	poetry  run black --check .
+	poetry run black --check .
