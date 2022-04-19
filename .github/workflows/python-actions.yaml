@@ -22,9 +22,15 @@ jobs:
       working-directory: ./python
 
     - name: Run Python Tests
-      run: poetry run pytest
+      run: poetry run pytest -v --junitxml=test-results/pytest.xml
       working-directory: ./python
 
     - name: Run Python Lint
       run: poetry run black --check .
       working-directory: ./python
+
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: "python/test-results/pytest.xml"
