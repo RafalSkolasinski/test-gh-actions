@@ -1,0 +1,16 @@
+name: GitHub Actions Demo
+on: [push, pull_request]
+jobs:
+  build:
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install poetry
+      run: pipx install poetry
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'
+        cache: 'poetry'
+    - run: poetry install
+      working-directory: ./python
+    - run: poetry run pytest
+      working-directory: ./python
