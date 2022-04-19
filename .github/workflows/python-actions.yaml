@@ -15,10 +15,11 @@ jobs:
       working-directory: ./python
 
   test:
+    runs-on: ubuntu-latest
+    steps:
     - name: Run Python Tests
       run: poetry run pytest
       working-directory: ./python
-
     - name: Run Python Lint
       run: make lint
       working-directory: ./python
