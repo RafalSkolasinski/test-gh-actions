@@ -1,0 +1,38 @@
+name: Python Actions Test
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install poetry
+      run: pipx install poetry
+
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'
+        cache: 'poetry'
+
+    - run: poetry install
+      working-directory: ./python
+
+    - name: Run Python Tests
+      run: poetry run pytest -v --junitxml=test-results/pytest.xml
+      working-directory: ./python
+      env:
+        PYTEST_ADDOPTS: "--color=yes"
+
+    - name: Run Python Lint
+      run: poetry run black --check .
+      working-directory: ./python
+
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: "python/test-results/pytest.xml"
