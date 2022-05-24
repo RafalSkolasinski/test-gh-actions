@@ -43,4 +43,4 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Send greeting (with default value for push)
-      run: echo "Hello ${{ steps.version.name.value }}"
+      run: echo "Hello ${{ steps.name.outputs.value }}"
