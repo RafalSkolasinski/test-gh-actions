@@ -5,6 +5,10 @@ name: Manual workflow example
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
+
+  push:
+    branches: [ master ]
+
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
@@ -25,6 +29,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+
+    - name: Set default name to greet
+      run: |
+        INPUT_NAME=${{ github.event.inputs.name }}
+        echo "NAME=${INPUT_VERSION:-'GitHub'}" >> $NAME
+        echo ::set-output name=name::$NAME
+
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      run: echo "Hello ${{ steps.version.outputs.name }}"
