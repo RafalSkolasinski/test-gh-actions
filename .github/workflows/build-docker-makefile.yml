@@ -1,4 +1,4 @@
-name: Build echo-server from master
+name: Build echo-server using Makefile
 
 on:
   push:
@@ -19,9 +19,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: docker/
-          push: true
-          tags: rafalskolasinski/gha-echo-server:latest-master
+      - name: Build Docker Images using Makefile
+        working-directory: ./docker
+        run: make image
+
+      - name: Push Docker Images using Makefile
+        working-directory: ./docker
+        run: make push

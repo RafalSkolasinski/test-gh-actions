@@ -1,5 +1,5 @@
 REPOSITORY ?= rafalskolasinski
-IMAGE_NAME ?= echo-server
+IMAGE_NAME ?= gha-echo-server
 
 DIRTY_STATUS := $(shell git diff --quiet || echo '-dirty')
 IMAGE_TAG := $(shell git describe --tags --dirty)
