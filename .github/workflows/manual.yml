@@ -33,7 +33,7 @@ jobs:
     - name: Set default name to greet
       run: |
         INPUT_NAME=${{ github.event.inputs.name }}
-        NAME=${INPUT_VERSION:-'GitHub'}
+        NAME=${INPUT_NAME:-'GitHub'}
         echo ::set-output name=name::$NAME
 
     # Runs a single command using the runners shell
