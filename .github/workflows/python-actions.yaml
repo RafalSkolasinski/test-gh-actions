@@ -1,4 +1,4 @@
-name: Python Actions Test
+name: Python Actions Example
 on:
   push:
     branches: [ master ]
