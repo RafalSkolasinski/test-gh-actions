@@ -34,7 +34,7 @@ jobs:
       id: name
       run: |
         USER_INPUT="${{ github.event.inputs.name }}"
-        echo "::set-output name=value::${USER_INPUT:-"Octocat"}"
+        echo ::set-output name=value::${USER_INPUT:-"Octocat"}
 
 
     # Runs a single command using the runners shell
