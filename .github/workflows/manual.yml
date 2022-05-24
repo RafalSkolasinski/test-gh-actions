@@ -36,6 +36,11 @@ jobs:
         USER_INPUT="${{ github.event.inputs.name }}"
         echo "::set-output name=value::${USER_INPUT:-"Octocat"}"
 
+
     # Runs a single command using the runners shell
-    - name: Send greeting
+    - name: Send greeting (default)
+      run: echo "Hello ${{ github.event.inputs.name }}"
+
+    # Runs a single command using the runners shell
+    - name: Send greeting (with default value for push)
       run: echo "Hello ${{ steps.version.name.value }}"
