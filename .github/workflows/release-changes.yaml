@@ -1,0 +1,43 @@
+name: Prepare release changes
+
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_USER: morda-bot
+
+  GITHUB_OWNER: rafalskolasinski
+  GITHUB_PROJECT: helm-charts
+
+jobs:
+  release-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Git Commit
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "${GITHUB_USER}"
+          git config --global user.email "${GITHUB_USER}@example.io"
+
+      - name: Set default docker tag for builds from master
+        id: generate-uuid
+        run: |
+          apt-get update && apt-get install --yes uuid-runtime
+          UUID=$(uuidgen)
+          echo ::set-output name=uuid::${UUID}
+
+      - name: Echo UUID that will be used
+        run: |
+          echo "Generated UUID is ${{ steps.generate-uuid.outputs.uuid }}"
+
+      - name: Create new branch with changes
+        working-directory: release
+        run: |
+          git checkout -b ${{ steps.generate-uuid.outputs.uuid }}
+          make deps changes
+          git add . && git commit -m "Commiting changes for ${{ steps.generate-uuid.outputs.uuid }}"
+          git push --set-upstream origin ${{ steps.generate-uuid.outputs.uuid }}
