@@ -1,6 +1,12 @@
 # We need some fortune!
 
 
+## Fri Jun 10 17:09:07 UTC 2022
+
+	A man was reading The Canterbury Tales one Saturday morning, when his
+wife asked "What have you got there?"  Replied he, "Just my cup and Chaucer."
+
+
 ## Fri Jun 10 17:07:23 UTC 2022
 
 He that breaks a thing to find out what it is has left the path of wisdom.
