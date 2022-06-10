@@ -28,8 +28,8 @@ jobs:
       - name: Create new branch for relase
         working-directory: release
         run: |
-          git checkout -b release-${{ github.event.inputs.version }}
-          git push --set-upstream origin release-${{ github.event.inputs.version }}
+          git checkout -b release-v${{ github.event.inputs.version }}
+          git push --set-upstream origin release-v${{ github.event.inputs.version }}
 
       # - name: Open and merge PR with changes
       #   run: |
