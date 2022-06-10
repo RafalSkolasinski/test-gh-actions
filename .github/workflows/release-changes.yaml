@@ -38,6 +38,6 @@ jobs:
         working-directory: release
         run: |
           git checkout -b ${{ steps.generate-uuid.outputs.uuid }}
-          make deps changes
+          sudo make deps && make changes
           git add . && git commit -m "Commiting changes for ${{ steps.generate-uuid.outputs.uuid }}"
           git push --set-upstream origin ${{ steps.generate-uuid.outputs.uuid }}
