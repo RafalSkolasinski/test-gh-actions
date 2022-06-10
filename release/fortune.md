@@ -5,6 +5,7 @@
 
 Living your life is a task so difficult, it has never been attempted before.
 
+
 ## Fri Jun 10 17:11:01 UTC 2022
 
 Things will be bright in P.M.  A cop will shine a light in your face.
