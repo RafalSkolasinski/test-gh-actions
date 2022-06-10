@@ -21,7 +21,7 @@ jobs:
       - name: Configure Git
         run: |
           git config --global user.name "${GITHUB_USER}"
-          git config --global user.email "${GITHUB_USER}@example.io"
+          git config --global user.email "${GITHUB_USER}@users.noreply.github.com""
 
       - name: Set default docker tag for builds from master
         id: generate-uuid
@@ -34,6 +34,10 @@ jobs:
         run: |
           echo "Generated UUID is ${{ steps.generate-uuid.outputs.uuid }}"
 
+      - name: Show git remotes
+        run: |
+          git remote -v
+
       - name: Create new branch with changes
         working-directory: release
         run: |
@@ -41,3 +45,12 @@ jobs:
           sudo make deps && make changes
           git add . && git commit -m "Commiting changes for ${{ steps.generate-uuid.outputs.uuid }}"
           git push --set-upstream origin ${{ steps.generate-uuid.outputs.uuid }}
+
+      - name: Open and merge PR with changes
+        run: |
+          gh pr create \
+            --base master \
+            --head ${{ steps.generate-uuid.outputs.uuid }} \
+            --title "PR for ${{ steps.generate-uuid.outputs.uuid }}" \
+            --body "update for ${{ steps.generate-uuid.outputs.uuid }}"
+          gh pr merge --squash ${{ steps.generate-uuid.outputs.uuid }}"
