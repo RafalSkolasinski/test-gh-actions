@@ -54,3 +54,5 @@ jobs:
             --title "PR for ${{ steps.generate-uuid.outputs.uuid }}" \
             --body "update for ${{ steps.generate-uuid.outputs.uuid }}"
           gh pr merge --squash ${{ steps.generate-uuid.outputs.uuid }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
