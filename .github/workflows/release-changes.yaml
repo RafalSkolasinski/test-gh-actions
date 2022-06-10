@@ -6,14 +6,12 @@ on:
 env:
   GITHUB_USER: morda-bot
 
-  GITHUB_OWNER: rafalskolasinski
-  GITHUB_PROJECT: helm-charts
-
 jobs:
   release-changes:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - name: Checkout Git Commit
         uses: actions/checkout@v3
