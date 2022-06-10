@@ -1,6 +1,12 @@
 # We need some fortune!
 
 
+## Fri Jun 10 17:07:23 UTC 2022
+
+He that breaks a thing to find out what it is has left the path of wisdom.
+		-- J.R.R. Tolkien
+
+
 ## Fri Jun 10 17:05:16 UTC 2022
 
 You're being followed.  Cut out the hanky-panky for a few days.
