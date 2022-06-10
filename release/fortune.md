@@ -1,6 +1,11 @@
 # We need some fortune!
 
 
+## Fri Jun 10 17:05:16 UTC 2022
+
+You're being followed.  Cut out the hanky-panky for a few days.
+
+
 ## Fri Jun 10 16:44:30 UTC 2022
 
 Try the Moo Shu Pork.  It is especially good today.
