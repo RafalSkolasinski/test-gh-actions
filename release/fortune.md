@@ -1,6 +1,13 @@
 # We need some fortune!
 
 
+## Fri Jun 10 17:09:03 UTC 2022
+
+Training is everything.  The peach was once a bitter almond; cauliflower is
+nothing but cabbage with a college education.
+		-- Mark Twain, "Pudd'nhead Wilson's Calendar"
+
+
 ## Fri Jun 10 17:07:23 UTC 2022
 
 He that breaks a thing to find out what it is has left the path of wisdom.
