@@ -43,6 +43,8 @@ jobs:
           sudo make deps && make changes
           git add . && git commit -m "Commiting changes for ${{ steps.generate-uuid.outputs.uuid }}"
           git push --set-upstream origin ${{ steps.generate-uuid.outputs.uuid }}
+        env:
+          FORTUNE_ID: ${{ steps.generate-uuid.outputs.uuid }}
 
       - name: Open and merge PR with changes
         run: |
