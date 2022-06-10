@@ -1,6 +1,11 @@
 # We need some fortune!
 
 
+## Fri Jun 10 16:44:30 UTC 2022
+
+Try the Moo Shu Pork.  It is especially good today.
+
+
 ## Fri 10 Jun 17:11:38 BST 2022
 
 A classic is something that everyone wants to have read
