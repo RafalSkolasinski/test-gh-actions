@@ -1,4 +1,4 @@
-name: Publish release changes
+name: Draft new release
 
 on:
   workflow_dispatch:
