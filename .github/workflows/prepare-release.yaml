@@ -94,7 +94,8 @@ jobs:
 
       - name: Create or edit release draft
         run: |
-          gh release view "${TAG}" || gh release create -d "${TAG}" < /dev/null
+          gh release view "${TAG}" || gh release create "${TAG}" --title "${TAG}" --draft --notes ""
+          sleep 5    # sleep required if we created a new draft -> otherwise release may not be found
           gh release edit "${TAG}" --notes-file release-notes.txt
           gh release upload "${TAG}" release/fortunes.tgz --clobber
         env:
