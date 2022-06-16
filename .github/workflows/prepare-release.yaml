@@ -99,3 +99,4 @@ jobs:
           gh release upload ${TAG} fortunes.tgz --clobber
         env:
           TAG: v${{ github.event.inputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
