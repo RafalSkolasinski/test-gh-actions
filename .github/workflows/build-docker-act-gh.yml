@@ -24,4 +24,4 @@ jobs:
         with:
           context: act-docker/
           push: true
-          tags: rafalskolasinski/gha-act-gh:latest
+          tags: rafalskolasinski/gha-act-gh:act-latest
