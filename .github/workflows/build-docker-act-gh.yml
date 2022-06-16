@@ -1,4 +1,4 @@
-name: Build echo-server from master
+name: Build act image with gh cli
 
 on:
   push:
