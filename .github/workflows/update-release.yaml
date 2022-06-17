@@ -1,4 +1,4 @@
-name: Draft new release
+name: Auto Draft new release
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
       - name: Generate and commit changelog
         run: |
           git commit -m "Generating changelog for $TAG" --allow-empty
-          git tag "${TAG}" --force && auto-changelog -l ${{ github.event.inputs.changelog-commit-limit }}
+          git tag "${TAG}" --force && auto-changelog -l 5
           git add CHANGELOG.md && git commit --amend --no-edit && git tag "${TAG}" --force
           git push && git push origin ${TAG} --force
         env:
@@ -54,7 +54,7 @@ jobs:
 
       - name: Generate release notes
         run: |
-          auto-changelog --starting-version ${TAG} --ending-version ${TAG} -l ${{ github.event.inputs.changelog-commit-limit }} -o release-notes.txt
+          auto-changelog --starting-version ${TAG} --ending-version ${TAG} -l 5 -o release-notes.txt
         env:
           TAG: "${{ steps.release-tag.outputs.value }}"
 
