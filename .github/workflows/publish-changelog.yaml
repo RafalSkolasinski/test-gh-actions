@@ -38,4 +38,4 @@ jobs:
         run: |
           auto-changelog -l 5
           git add CHANGELOG.md && git commit -m "Updating CHANGELOG.md on master"
-          git push && git push
+          git push && git push origin master
