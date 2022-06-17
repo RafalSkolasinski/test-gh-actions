@@ -1,4 +1,4 @@
-name: Auto Draft new release
+name: Publish changelog to master on new release
 
 on:
   release:
