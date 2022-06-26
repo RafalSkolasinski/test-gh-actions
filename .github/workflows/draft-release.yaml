@@ -1,16 +1,17 @@
-name: Auto Draft new release
+name: Draft New Release
 
 on:
-  push:
-    branches:
-      - 'release-v*'
-
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version for new draft (e.g. v0.1.0)'
+        required: true
 
 env:
   GITHUB_USER: morda-bot
 
 jobs:
-  update-release:
+  update-release-branch:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -21,18 +22,35 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Validate workflow inputs
+        run: |
+          set -e
+
+          RELEASE_BRANCH=$(echo ${GITHUB_REF#refs/heads/})
+          RELEASE_TAG="${{ steps.release-tag.outputs.value }}"
+
+          # TODO: validate that RELEASE BRANCH is for release line
+
+          # Release tag version must match v<major>.<minor>.<patch> and optional -rcX suffix
+          if ! echo "${RELEASE_TAG}" | egrep '^v[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)*$'; then
+            echo "::error::Target version '${RELEASE_TAG}' is not valid release tag." >&2
+            exit 1
+          fi
+
+          # Ensure that release does not yet exist
+          if git rev-parse ${RELEASE_TAG}; then
+            echo "::error::Release tag ${RELEASE_TAG} already exists. Stopping draft process."
+            exit 1
+          fi
+
+          # Save env variables for later steps
+          echo "RELEASE_BRANCH=${RELEASE_BRANCH}" >> $GITHUB_ENV
+          echo "RELEASE_TAG=${RELEASE_TAG}" >> $GITHUB_ENV
+
       - name: Configure Git
         run: |
           git config --global user.name "${GITHUB_USER}"
           git config --global user.email "${GITHUB_USER}@users.noreply.github.com"
-
-
-      - name: Read release version from branch name
-        id: release-tag
-        run: |
-          TAG=$(echo ${GITHUB_REF#refs/heads/release-v})
-          echo "$TAG"
-          echo ::set-output name=value::${TAG}
 
       - name: Configure node
         uses: actions/setup-node@v3
@@ -46,51 +64,26 @@ jobs:
       - name: Generate and commit changelog
         run: |
           git commit -m "Generating changelog for $TAG" --allow-empty
-          git tag "${TAG}" --force && auto-changelog -l 5
-          git add CHANGELOG.md && git commit --amend --no-edit && git tag "${TAG}" --force
-          git push && git push origin ${TAG} --force
-        env:
-          TAG: "${{ steps.release-tag.outputs.value }}"
+          git tag "${env.RELEASE_TAG}" --force && auto-changelog -l 5
+          git add CHANGELOG.md && git commit --amend --no-edit
+          git push
 
       - name: Generate release notes
         run: |
-          auto-changelog --starting-version ${TAG} --ending-version ${TAG} -l 5 -o release-notes.txt
-        env:
-          TAG: "${{ steps.release-tag.outputs.value }}"
-
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: release-notes
-      #     path: release-notes.txt
-
-  # prepare-artifacts:
-  #   runs-on: ubuntu-latest
-  #   needs: prepare-release
-  #   steps:
-  #     - uses: actions/download-artifact@v3
-  #       with:
-  #         name: release-notes
+          auto-changelog --starting-version ${env.RELEASE_TAG} --ending-version ${env.RELEASE_TAG} -l 5 -o release-notes.txt
 
       - name: Prepare release artifact
         working-directory: release
         run: make package
 
-  # draft-release:
-  #   runs-on: ubuntu-latest
-  #   needs: prepare-release
-  #   steps:
-  #     - name: Checkout Git Commit
-  #       uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-
-
       - name: Create or edit release draft
         run: |
-          gh release view "${TAG}" || gh release create "${TAG}" --title "${TAG}" --draft --notes ""
-          sleep 5    # sleep required if we created a new draft -> otherwise release may not be found
-          gh release edit "${TAG}" --notes-file release-notes.txt
-          gh release upload "${TAG}" release/fortunes.tgz --clobber
+          # TODO: Valdiate that there is no published released (we should not get here if tag exists anyway)
+          gh release delete "${env.RELEASE_TAG}"
+          gh release create "${env.RELEASE_TAG}" --draft \
+            --title "${env.RELEASE_TAG}"  \
+            --notes-file release-notes.txt \
+            --target "${env.RELEASE_BRANCH}" \
+            release/fortunes.tgz
         env:
-          TAG: "${{ steps.release-tag.outputs.value }}"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
