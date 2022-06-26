@@ -29,18 +29,29 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
     - name: Set default name to greet
-      id: name
+      id: set-name
       run: |
         USER_INPUT="${{ github.event.inputs.greet-name }}"
         echo ::set-output name=value::${USER_INPUT:-"Octocat"}
 
-
     # Runs a single command using the runners shell
-    - name: Send greeting (default)
+    - name: Send greeting (value only on dispatch)
       run: echo "Hello ${{ github.event.inputs.name }}"
 
     # Runs a single command using the runners shell
-    - name: Send greeting (with default value for push)
-      run: echo "Hello ${{ steps.name.outputs.value }}"
+    - name: Send greeting (default value for push event)
+      run: echo "Hello ${{ steps.set-name.outputs.value }}"
+
+    - name: Checkout Git Commit
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Read branch name
+      id: release-tag
+      run: |
+        BRANCH=$(echo ${GITHUB_REF#refs/heads/})
+        echo "From GITHUB_REF: $BRANCH"
+        echo "From git:"
+        git branch
