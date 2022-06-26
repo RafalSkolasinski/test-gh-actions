@@ -29,7 +29,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
     - name: Set default name to greet
       id: set-name
       run: |
@@ -43,3 +42,16 @@ jobs:
     # Runs a single command using the runners shell
     - name: Send greeting (default value for push event)
       run: echo "Hello ${{ steps.set-name.outputs.value }}"
+
+    - name: Checkout Git Commit
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Read branch name
+      id: release-tag
+      run: |
+        BRANCH=$(echo ${GITHUB_REF#refs/heads/})
+        echo "From GITHUB_REF: $BRANCH"
+        echo "From git:"
+        git branch
