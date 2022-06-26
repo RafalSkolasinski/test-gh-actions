@@ -48,8 +48,9 @@ jobs:
 
       - name: Open and merge PR with changes
         run: |
+          BRANCH=$(echo ${GITHUB_REF#refs/heads/})
           gh pr create \
-            --base master \
+            --base ${BRANCH} \
             --head ${{ steps.generate-uuid.outputs.uuid }} \
             --title "PR for ${{ steps.generate-uuid.outputs.uuid }}" \
             --body "update for ${{ steps.generate-uuid.outputs.uuid }}"
