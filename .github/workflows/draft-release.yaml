@@ -11,7 +11,7 @@ env:
   GITHUB_USER: morda-bot
 
 jobs:
-  update-release-branch:
+  draft-release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,11 +23,12 @@ jobs:
           fetch-depth: 0
 
       - name: Validate workflow inputs
+        shell: bash
         run: |
           set -e
 
           RELEASE_BRANCH=$(echo ${GITHUB_REF#refs/heads/})
-          RELEASE_TAG="${{ steps.release-tag.outputs.value }}"
+          RELEASE_TAG="${{ github.event.inputs.version }}"
 
           # TODO: validate that RELEASE BRANCH is for release line
 
@@ -63,14 +64,14 @@ jobs:
 
       - name: Generate and commit changelog
         run: |
-          git commit -m "Generating changelog for $TAG" --allow-empty
-          git tag "${env.RELEASE_TAG}" --force && auto-changelog -l 5
+          git commit -m "Generating changelog for ${RELEASE_TAG}" --allow-empty
+          git tag "${RELEASE_TAG}" --force && auto-changelog -l 5
           git add CHANGELOG.md && git commit --amend --no-edit
           git push
 
       - name: Generate release notes
         run: |
-          auto-changelog --starting-version ${env.RELEASE_TAG} --ending-version ${env.RELEASE_TAG} -l 5 -o release-notes.txt
+          auto-changelog --starting-version ${RELEASE_TAG} --ending-version ${RELEASE_TAG} -l 5 -o release-notes.txt
 
       - name: Prepare release artifact
         working-directory: release
@@ -79,11 +80,11 @@ jobs:
       - name: Create or edit release draft
         run: |
           # TODO: Valdiate that there is no published released (we should not get here if tag exists anyway)
-          gh release delete "${env.RELEASE_TAG}"
-          gh release create "${env.RELEASE_TAG}" --draft \
-            --title "${env.RELEASE_TAG}"  \
+          gh release delete "${RELEASE_TAG}" || echo "Draft not yet exist"
+          gh release create "${RELEASE_TAG}" --draft \
+            --title "${RELEASE_TAG}"  \
             --notes-file release-notes.txt \
-            --target "${env.RELEASE_BRANCH}" \
+            --target "${RELEASE_BRANCH}" \
             release/fortunes.tgz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

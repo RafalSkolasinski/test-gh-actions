@@ -1,7 +1,6 @@
 {
   "action": "workflow_dispatch",
   "inputs": {
-      "version": "0.4.0",
-      "changelog-commit-limit": "5"
+      "version": "v0.1.0"
   }
 }
