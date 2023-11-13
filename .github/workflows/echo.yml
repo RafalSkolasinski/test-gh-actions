@@ -7,25 +7,25 @@ on:
 
   workflow_dispatch:
     inputs:
-      echo:
-        description: 'Echo Value'
-        default: 'Echo...'
+      name:
+        description: 'Person to greet'
+        default: 'World!'
         required: true
 
 env:
-  DEFAULT_ECHO: "..."
+  DEFAULT_NAME: World!
 
 jobs:
   echo:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set default echo value
-      id: echo
+    - name: Set default name of person to greet
+      id: set-name
       run: |
         USER_INPUT="${{ github.event.inputs.echo }}"
-        echo "value=${USER_INPUT:-$DEFAULT_ECHO}" >> $GITHUB_OUTPUT
+        echo "value=${USER_INPUT:-$DEFAULT_NAME}" >> $GITHUB_OUTPUT
 
-    - name: Send Echo Signal
+    - name: Send the greeting
       run: |
-        echo "Echo: ${{ steps.echo.outputs.value }}"
+        echo "Hello ${{ steps.set-name.outputs.value }}"

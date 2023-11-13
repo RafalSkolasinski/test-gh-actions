@@ -31,7 +31,7 @@ jobs:
         id: docker-tag
         run: |
           USER_INPUT="${{ github.event.inputs.docker-tag }}"
-          echo ::set-output name=value::${USER_INPUT:-$DEFAULT_TAG}
+          echo "value=${USER_INPUT:-$DEFAULT_TAG}" >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@v3
