@@ -26,6 +26,6 @@ jobs:
         USER_INPUT="${{ github.event.inputs.echo }}"
         echo ::set-output name=value::${USER_INPUT:-$DEFAULT_ECHO}
 
-    - name: Send greeting (default value for push event)
+    - name: Send Echo Signal
       run: |
         echo "Echo: ${{ steps.echo.outputs.value }}"
