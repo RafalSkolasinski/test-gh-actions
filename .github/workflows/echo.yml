@@ -24,7 +24,7 @@ jobs:
       id: echo
       run: |
         USER_INPUT="${{ github.event.inputs.echo }}"
-        echo ::set-output name=value::${USER_INPUT:-$DEFAULT_ECHO}
+        echo "value=${USER_INPUT:-$DEFAULT_ECHO}" >> $GITHUB_OUTPUT
 
     - name: Send Echo Signal
       run: |
