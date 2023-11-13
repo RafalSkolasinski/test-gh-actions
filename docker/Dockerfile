@@ -12,7 +12,7 @@ WORKDIR $WORKDIR
 RUN apt-get update && apt-get -y install nano wget curl git
 
 # Install Poetry
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 ENV PATH "$POETRY_HOME/bin:$PATH"
 RUN poetry config virtualenvs.create false
