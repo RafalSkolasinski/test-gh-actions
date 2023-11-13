@@ -6,7 +6,7 @@ on:
 
   workflow_dispatch:
     inputs:
-      tags:
+      docker-tag:
         description: "Tag for image push"
         default: latest
         required: true
