@@ -23,7 +23,7 @@ jobs:
     - name: Set default name of person to greet
       id: set-name
       run: |
-        USER_INPUT="${{ github.event.inputs.echo }}"
+        USER_INPUT="${{ github.event.inputs.name }}"
         echo "value=${USER_INPUT:-$DEFAULT_NAME}" >> $GITHUB_OUTPUT
 
     - name: Send the greeting
