@@ -1,0 +1,31 @@
+name: Dispatch Echo
+
+on:
+
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+    inputs:
+      echo:
+        description: 'Echo Value'
+        default: 'Echo...'
+        required: true
+
+env:
+  DEFAULT_ECHO: "..."
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set default echo value
+      id: echo
+      run: |
+        USER_INPUT="${{ github.event.inputs.echo }}"
+        echo ::set-output name=value::${USER_INPUT:-$DEFAULT_ECHO}
+
+    - name: Send greeting (default value for push event)
+      run: |
+        echo "Echo: ${{ steps.echo.outputs.value }}"
