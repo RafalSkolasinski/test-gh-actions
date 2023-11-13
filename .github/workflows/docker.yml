@@ -38,4 +38,4 @@ jobs:
         with:
           context: docker/
           push: true
-          tags: rafalskolasinski/gha-echo-server:latest-master
+          tags: rafalskolasinski/gha-echo-server:${{ steps.docker-tag.outputs.value }}
