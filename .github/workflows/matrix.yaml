@@ -15,5 +15,6 @@ jobs:
         person: [Tom, John]
 
     steps:
-    - run: |
+    - name: ${{ matrix.person }}'s fruit preference
+      run: |
         echo "${{ matrix.person }} likes ${{ matrix.fruit }}"
