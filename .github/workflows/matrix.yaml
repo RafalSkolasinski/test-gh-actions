@@ -1,0 +1,19 @@
+name: Matrix Build
+
+on:
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fruit: [apple, pear]
+        person: [Tom, John]
+
+    steps:
+    - run: |
+        echo "${{ matrix.person }} likes ${{ matrix.fruit }}"
