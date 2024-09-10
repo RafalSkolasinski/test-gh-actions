@@ -8,6 +8,7 @@ on:
 
 jobs:
   matrix:
+    name: Job for ${{ matrix.person }} - ${{ matrix.fruit }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
