@@ -29,3 +29,7 @@ jobs:
     - name: Send the greeting
       run: |
         echo "Hello ${{ steps.set-name.outputs.value }}"
+
+    - name: Print workflow_ref
+      run: |
+        echo "workflow_ref: ${{ github.workflow_ref }}"
