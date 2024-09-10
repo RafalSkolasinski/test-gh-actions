@@ -32,4 +32,6 @@ jobs:
 
     - name: Print workflow_ref
       run: |
+        echo "workflow: ${{ github.workflow }}"
+        echo "ref: ${{ github.ref }}"
         echo "workflow_ref: ${{ github.workflow_ref }}"
